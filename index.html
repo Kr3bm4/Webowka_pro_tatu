@@ -3,48 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ateliér Krebs</title>
+    <title>Atelier Krebs | Architektura</title>
     <style>
         body { 
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
             background-color: #fafafa; 
             color: #2d2d2d; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100vh; 
             margin: 0; 
             letter-spacing: 1px;
+            scroll-behavior: smooth;
         }
-        .container 
-        { 
+        
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container { 
             text-align: left; 
             padding-left: 40px; 
-            position: relative;
+            position: relative; 
+            width: auto;
         }
+
         .container::before {
             content: "";
             position: absolute;
             left: 0;
-            top: -20px;    
-            bottom: -20px; 
-            width: 2px;    
+            top: -40px;
+            bottom: -40px;
+            width: 5px;
             background-color: #d1d1d1;
         }
-        /* The Gallery Grid */
+
+        h1 { font-weight: 300; font-size: 2.5rem; margin: 0; text-transform: uppercase; }
+        h2 { font-weight: 400; font-size: 1rem; color: #888; margin-top: 5px; margin-bottom: 20px; }
+        .status { font-style: italic; color: #aaa; font-size: 0.9rem; }
+
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             width: 80%;
             max-width: 1000px;
-            margin-top: 60px; 
+            margin: -50px auto 100px auto;
+            position: relative;
+            z-index: 10;
         }
-    
-        /* Individual Project Box */
+
         .project-box {
-            aspect-ratio: 3 / 2; 
+            aspect-ratio: 3 / 2;
             background-color: #eee;
             border: 1px solid #e0e0e0;
             display: flex;
@@ -53,33 +65,27 @@
             color: #bbb;
             font-size: 0.8rem;
             text-transform: uppercase;
-            transition: all 0.3s ease;
         }
-        .project-box:hover {
-            background-color: #e8e8e8;
-            border-color: #ccc;
-            color: #888;
-        }
-        
-        h1 { font-weight: 300; font-size: 2.5rem; margin-bottom: 5px; text-transform: uppercase; }
-        h2 { font-weight: 400; font-size: 1rem; color: #888; margin-bottom: 40px; }
-        .status { font-style: italic; color: #aaa; font-size: 0.9rem; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Ateliér Krebs</h1>
-        <h2>Návrhy domů, bytů a zahrad.</h2>
-        <p class="status">Nová digitální prezentace se připravuje.</p>
-    </div>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Atelier Krebs</h1>
+            <h2>Architektura rodinných domů a zahrad</h2>
+            <p class="status">Nová digitální prezentace se připravuje.</p>
+        </div>
+    </section>
 
     <div class="gallery">
-        <div class="project-box">Rodinný domek</div>
-        <div class="project-box">Chalupa</div>
-        <div class="project-box">Letní vilka</div>
+        <div class="project-box">Projekt I</div>
+        <div class="project-box">Projekt II</div>
+        <div class="project-box">Projekt III</div>
         <div class="project-box">Zahrada</div>
         <div class="project-box">Interiér</div>
         <div class="project-box">Studie</div>
     </div>
+
 </body>
 </html>
