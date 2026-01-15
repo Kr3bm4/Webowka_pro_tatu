@@ -17,7 +17,22 @@
             margin: 0; 
             letter-spacing: 1px;
         }
-        .container { text-align: center; border-left: 5px solid #d1d1d1; padding-left: 140px; }
+        .container 
+        { 
+            text-align: left; 
+            padding-left: 40px; 
+            position: relative; /* This is the "anchor" for the line */
+        .container::before {
+            content: "";
+            position: absolute;
+            left: 0;
+        top: -20px;    /* Extends 20px ABOVE the text */
+        bottom: -20px; /* Extends 20px BELOW the text */
+        width: 5px;    /* The thickness of your line */
+        background-color: #d1d1d1;
+}
+
+        
         h1 { font-weight: 300; font-size: 2.5rem; margin-bottom: 5px; text-transform: uppercase; }
         h2 { font-weight: 400; font-size: 1rem; color: #888; margin-bottom: 40px; }
         .status { font-style: italic; color: #aaa; font-size: 0.9rem; }
