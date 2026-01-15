@@ -21,15 +21,15 @@
         { 
             text-align: left; 
             padding-left: 40px; 
-            position: relative; /* This is the "anchor" for the line */
+            position: relative;
         }
         .container::before {
             content: "";
             position: absolute;
             left: 0;
-            top: -20px;    /* Extends 20px ABOVE the text */
-            bottom: -20px; /* Extends 20px BELOW the text */
-            width: 5px;    /* The thickness of your line */
+            top: -120px;    
+            bottom: -120px; 
+            width: 2px;    
             background-color: #d1d1d1;
         }
         /* The Gallery Grid */
@@ -39,12 +39,12 @@
             gap: 20px;
             width: 80%;
             max-width: 1000px;
-            margin-top: 60px; /* Space between header and gallery */
+            margin-top: 60px; 
         }
-
-/* Individual Project Box */
+    
+        /* Individual Project Box */
         .project-box {
-            aspect-ratio: 3 / 2; /* Professional architectural photo ratio */
+            aspect-ratio: 3 / 2; 
             background-color: #eee;
             border: 1px solid #e0e0e0;
             display: flex;
@@ -55,8 +55,6 @@
             text-transform: uppercase;
             transition: all 0.3s ease;
         }
-
-/* Subtle hover effect for when he explores the site */
         .project-box:hover {
             background-color: #e8e8e8;
             border-color: #ccc;
