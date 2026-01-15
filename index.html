@@ -82,21 +82,22 @@
             60% {transform: translateY(-3px);}
         } 
 */ /* Chci lištu? */
-        .social-link {
-            margin-top: 20px;
-            display: inline-block;
-            text-decoration: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .social-link:hover {
-            opacity: 0.6; /* Subtle architectural fade on hover */
+        .icon-row {
+            margin-top: 25px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
         }
 
         .social-link svg {
-            width: 24px;   /* Size of the icon */
-            height: 24px;
-            fill: #2d2d2d; /* Matches your body font color exactly */
+            width: 22px;
+            height: 22px;
+            fill: #2d2d2d; /* Matches your font */
+            transition: fill 0.3s ease;
+        }
+
+        .social-link:hover svg {
+            fill: #888; /* Soft grey hover */
         }
     </style>
 </head>
@@ -107,10 +108,24 @@
             <h1>Ateliér Krebs</h1>
             <h2>Návrhy domů, bytů a zahrad</h2>
             <p class="status">Nová digitální prezentace se připravuje.</p>
+            
             <a href="https://www.linkedin.com/in/tom%C3%A1%C5%A1-krebs-4b503ab1/" target="_blank" class="social-link" title="LinkedIn">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
                 </svg>
+            </a>
+        </div>
+        <div class="icon-row">
+            <a href="URL_LINKEDIN" target="_blank" class="social-link" title="LinkedIn">
+                <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </a>
+
+            <a href="mailto:krebs.tomas@seznam.cz" class="social-link" title="Email">
+                <svg viewBox="0 0 24 24"><path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 8.818h-18.893l5.627-8.813zm9.201-1.259l4.623-3.746v9.458l-4.623-5.712z"/></svg>
+            </a>
+
+            <a href="tel:+420604926811" class="social-link" title="Telefon">
+                <svg viewBox="0 0 24 24"><path d="M20 22.621l-3.521-6.795c-.008.004-1.974.97-2.064 1.011-2.24 1.086-6.799-7.82-4.558-8.907.03-.013 1.916-.913 2.061-.983l-3.34-6.447c-.03-.012-1.898.913-2.035.979-3.03 1.468-4.597 4.542-4.542 7.551.056 3.001 1.722 6.248 4.704 9.172 2.983 2.924 6.273 4.517 9.274 4.46 3.011-.055 6.042-1.688 7.469-4.673.067-.14-.854-1.902-.988-2.361z"/></svg>
             </a>
         </div>
     </section>
