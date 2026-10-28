@@ -1,186 +1,897 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="cs" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atelier Krebs | Bytový design</title>
+    <title>Ateliér Krebs | Návrhy domů, bytů a zahrad – Tomáš Krebs</title>
+    <meta name="description" content="Ateliér Krebs – Tomáš Krebs. Architektonické návrhy a studie rodinných domů, dispozic bytů, interiérů a zahrad s důrazem na funkčnost a nadčasovost.">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Plus Jakarta Sans (čisté moderní písmo) + Cormorant Garamond (architektonický detail) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                    },
+                    colors: {
+                        stone: {
+                            50: '#FAF9F6',
+                            100: '#F3F1EC',
+                            200: '#E6E2D8',
+                            300: '#D5CFC2',
+                            500: '#8C857B',
+                            700: '#4A4742',
+                            800: '#2D2C2A',
+                            900: '#1C1B1A',
+                        },
+                        olive: {
+                            600: '#636956',
+                            700: '#4F5444',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        body { 
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
-            background-color: #fafafa; 
-            color: #2d2d2d; 
-            margin: 0; 
-            letter-spacing: 1px;
-            scroll-behavior: smooth;
+        /* Jemná architektonická mřížka na pozadí */
+        .bg-arch-grid {
+            background-color: #FAF9F6;
+            background-image: 
+                linear-gradient(to right, rgba(213, 207, 194, 0.28) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(213, 207, 194, 0.28) 1px, transparent 1px);
+            background-size: 64px 64px;
         }
 
-        .hero {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+        /* Zachování a povýšení původní vertikální linky u hlavního nadpisu */
+        .hero-vertical-line {
             position: relative;
-            box-sizing: border-box;
         }
-
-        .container { 
-            text-align: left; 
-            padding-left: 40px; 
-            position: relative; 
-            width: auto;
-            max-width: 600px;
-        }
-
-        .container::before {
+        .hero-vertical-line::before {
             content: "";
             position: absolute;
             left: 0;
-            top: -40px;
-            bottom: -40px;
-            width: 5px;
-            background-color: #d1d1d1;
+            top: -12px;
+            bottom: -12px;
+            width: 4px;
+            background: linear-gradient(180deg, #2D2C2A 0%, #636956 65%, #D5CFC2 100%);
+            border-radius: 2px;
         }
 
-        h1 { font-weight: 300; font-size: 2.8rem; margin: 0; text-transform: uppercase; line-height: 1; }
-        h2 { font-weight: 400; font-size: 1.1rem; color: #888; margin-top: 10px; margin-bottom: 20px; }
-        .status { font-style: italic; color: #aaa; font-size: 0.9rem; margin-bottom: 15px; }
-
-        .icon-row {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            margin-top: 25px;
+        /* Plynulé animace pro karty a obrázky */
+        .project-card img {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .project-card:hover img {
+            transform: scale(1.04);
         }
 
-        .social-link {
-            text-decoration: none;
-            transition: opacity 0.3s ease;
+        /* Skrytí posuvníku u mobilních filtrů */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
         }
-
-        .social-link svg {
-            width: 24px;
-            height: 24px;
-            fill: #2d2d2d;
-            transition: fill 0.3s ease;
-        }
-
-        .social-link:hover svg {
-            fill: #888;
-        }
-
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            width: 90%;
-            max-width: 1100px;
-            margin: -60px auto 100px auto;
-            position: relative;
-            z-index: 10;
-        }
-
-        .project-box {
-            aspect-ratio: 3 / 2;
-            background-color: #eee;
-            border: 1px solid #e0e0e0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #bbb;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-        }
-
-        .project-box:hover {
-            background-color: #e8e8e8;
-            border-color: #ccc;
-        }
-
-        /* The container for the icon + hidden text */
-        .tooltip {
-            position: relative;
-            display: inline-block;
-        }
-
-/* The hidden text box */
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 140px;
-            background-color: #2d2d2d;
-            color: #fff;
-            text-align: center;
-            padding: 8px 0;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-style: normal;
-    
-    /* Position it above the icon */
-            position: absolute;
-            z-index: 1;
-            bottom: 150%; 
-            left: 50%;
-            margin-left: -70px; /* Centers the box */
-    
-    /* Fade in effect */
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-/* Show the text on hover */
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
-
-/* Little arrow pointing down from the box */
-        .tooltip .tooltiptext::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #2d2d2d transparent transparent transparent;
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
     </style>
 </head>
-<body>
+<body class="bg-arch-grid text-stone-800 font-sans antialiased selection:bg-stone-800 selection:text-stone-50">
 
-    <section class="hero">
-        <div class="container">
-            <h1>Ateliér Krebs</h1>
-            <h2>Návrhy domů, bytů a zahrad</h2>
-            <p class="status">Nová digitální prezentace se připravuje.</p>
-            
-            <div class="icon-row">
-                <a href="https://www.linkedin.com/in/tom%C3%A1%C5%A1-krebs-4b503ab1/" target="_blank" class="social-link" title="LinkedIn">
-                    <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+    <!-- =========================================================================
+         1. HORNÍ NAVIGACE (Minimalistická hlavička)
+         ========================================================================= -->
+    <header class="sticky top-0 z-40 bg-stone-50/90 backdrop-blur-md border-b border-stone-200/80">
+        <div class="max-w-6xl mx-auto px-5 sm:px-8 h-16 sm:h-20 flex items-center justify-between">
+            <!-- Logo / Značka -->
+            <a href="#" class="group flex items-center gap-3 focus:outline-none">
+                <span class="w-2 h-6 bg-stone-800 group-hover:bg-olive-600 transition-colors rounded-sm"></span>
+                <div>
+                    <span class="block text-sm sm:text-base font-semibold tracking-[0.18em] uppercase text-stone-900">Ateliér Krebs</span>
+                    <span class="block text-[11px] tracking-wider text-stone-500 hidden sm:block">Tomáš Krebs • Projektant & Designér</span>
+                </div>
+            </a>
+
+            <!-- Odkazy v navigaci -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-stone-700">
+                <a href="#zamereni" class="hover:text-stone-900 transition-colors">Zaměření</a>
+                <a href="#ukazky" class="hover:text-stone-900 transition-colors">Ukázky</a>
+                <a href="#spoluprace" class="hover:text-stone-900 transition-colors">Jak pracuji</a>
+                <a href="#kontakt" class="hover:text-stone-900 transition-colors">Vizitka</a>
+            </nav>
+
+            <!-- Rychlé akční tlačítko (Zavolat / Kontakt) -->
+            <div class="flex items-center gap-2.5">
+                <a href="tel:+420604464593" 
+                   class="inline-flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-lg bg-stone-900 text-stone-50 text-xs sm:text-sm font-medium hover:bg-olive-700 transition-colors shadow-sm">
+                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-stone-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/>
+                    </svg>
+                    <span>+420 604 464 593</span>
                 </a>
-                <a href="mailto:krebs.tomas@seznam.cz" class="social-link" title="Email">
-                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                </a>
-              <div class="tooltip social-link">
-                <span class="tooltiptext">+420 604 464 593</span>
-                    <a href="tel:+420604464593">
-                        <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-                    </a>
-        </div>
             </div>
         </div>
-        
-    </section>
+    </header>
 
-    <div class="gallery">
-        <div class="project-box">Projekt I</div>
-        <div class="project-box">Projekt II</div>
-        <div class="project-box">Projekt III</div>
-        <div class="project-box">Projekt IV</div>
-        <div class="project-box">Projekt V</div>
-        <div class="project-box">Projekt VI</div>
+    <!-- =========================================================================
+         2. HLAVNÍ SEKCE – DIGITÁLNÍ VIZITKA (HERO)
+         (Zachovává původní rukopis s vertikální linií, ale kontakty jsou ihned čitelné)
+         ========================================================================= -->
+    <main>
+        <section class="relative pt-10 pb-16 sm:py-24 lg:py-28 border-b border-stone-200/80">
+            <div class="max-w-6xl mx-auto px-5 sm:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+                    
+                    <!-- Levá část: Osobní představení s vertikální linkou -->
+                    <div class="lg:col-span-7">
+                        <div class="hero-vertical-line pl-6 sm:pl-10">
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-200/70 text-stone-700 text-xs font-medium tracking-wide uppercase mb-4">
+                                <span class="w-1.5 h-1.5 rounded-full bg-olive-600"></span>
+                                Architektonické a projekční práce
+                            </div>
+                            
+                            <!-- ZDE MŮŽETE UPRAVIT HLAVNÍ NADPIS NEBO PODTITUL -->
+                            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-light uppercase tracking-[0.06em] text-stone-900 leading-none">
+                                Ateliér Krebs
+                            </h1>
+                            <h2 class="mt-3 text-lg sm:text-2xl font-normal text-stone-600 tracking-wide">
+                                Návrhy domů, bytů a zahrad
+                            </h2>
+                            
+                            <p class="mt-5 text-stone-600 text-sm sm:text-base leading-relaxed max-w-xl font-light">
+                                Promyšlená řešení bydlení s důrazem na přirozené světlo, čistou dispozici a praktický život. Od první skici a studie až po prováděcí podklady pro bezproblémovou realizaci.
+                            </p>
+
+                            <!-- Rychlé akce pod úvodem -->
+                            <div class="mt-7 flex flex-wrap items-center gap-3">
+                                <button onclick="downloadVCard()" 
+                                        class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-lg bg-stone-900 text-stone-50 text-xs sm:text-sm font-medium hover:bg-olive-700 transition-all shadow-sm">
+                                    <svg class="w-4 h-4 text-stone-300" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z"/>
+                                    </svg>
+                                    <span>Uložit do kontaktů (vCard)</span>
+                                </button>
+
+                                <button onclick="openQrModal()" 
+                                        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-white border border-stone-300 text-stone-800 text-xs sm:text-sm font-medium hover:bg-stone-100 transition-all">
+                                    <svg class="w-4 h-4 text-stone-600" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75h-.75v-.75z"/>
+                                    </svg>
+                                    <span>QR vizitka na mobil</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pravá část: Přehledná kontaktní karta (vše okamžitě viditelné bez nutnosti najíždět myší) -->
+                    <div class="lg:col-span-5">
+                        <div class="bg-white/95 backdrop-blur-sm border border-stone-200/90 rounded-2xl p-6 sm:p-8 shadow-[0_12px_40px_-15px_rgba(28,27,26,0.08)] relative overflow-hidden">
+                            <!-- Jemný architektonický rohový detail -->
+                            <div class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-25">
+                                <svg viewBox="0 0 100 100" fill="none" stroke="#636956" stroke-width="1">
+                                    <line x1="20" y1="0" x2="20" y2="100" />
+                                    <line x1="60" y1="0" x2="60" y2="100" />
+                                    <line x1="0" y1="40" x2="100" y2="40" />
+                                    <line x1="0" y1="80" x2="100" y2="80" />
+                                </svg>
+                            </div>
+
+                            <div class="flex items-center justify-between pb-5 mb-5 border-b border-stone-200">
+                                <div>
+                                    <p class="text-xs uppercase tracking-[0.15em] text-stone-500 font-medium">Přímý kontakt</p>
+                                    <h3 class="text-xl font-semibold text-stone-900 mt-0.5">Tomáš Krebs</h3>
+                                </div>
+                                <span class="w-11 h-11 rounded-xl bg-stone-100 border border-stone-200 flex items-center justify-center text-stone-800 font-serif text-lg font-semibold">
+                                    TK
+                                </span>
+                            </div>
+
+                            <!-- Seznam přímých kontaktů s tlačítkem pro zkopírování -->
+                            <div class="space-y-3.5">
+                                
+                                <!-- 1. TELEFON -->
+                                <div class="group flex items-center justify-between p-3 rounded-xl bg-stone-50 hover:bg-stone-100/80 border border-stone-200/70 transition-colors">
+                                    <a href="tel:+420604464593" class="flex items-center gap-3.5 min-w-0 flex-1">
+                                        <span class="w-10 h-10 rounded-lg bg-white border border-stone-200 flex items-center justify-center text-stone-800 group-hover:bg-stone-900 group-hover:text-white transition-colors shrink-0">
+                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                                            </svg>
+                                        </span>
+                                        <div class="truncate">
+                                            <span class="block text-[11px] uppercase tracking-wider text-stone-500">Telefon</span>
+                                            <span class="block text-sm sm:text-base font-semibold text-stone-900 tracking-wide">+420 604 464 593</span>
+                                        </div>
+                                    </a>
+                                    <button onclick="copyToClipboard('+420 604 464 593', 'Telefonní číslo bylo zkopírováno')" 
+                                            title="Zkopírovat telefon"
+                                            class="ml-2 px-2.5 py-1.5 rounded-lg text-xs font-medium text-stone-600 hover:text-stone-900 hover:bg-white border border-transparent hover:border-stone-200 transition-all shrink-0">
+                                        Kopírovat
+                                    </button>
+                                </div>
+
+                                <!-- 2. E-MAIL -->
+                                <div class="group flex items-center justify-between p-3 rounded-xl bg-stone-50 hover:bg-stone-100/80 border border-stone-200/70 transition-colors">
+                                    <a href="mailto:krebs.tomas@seznam.cz" class="flex items-center gap-3.5 min-w-0 flex-1">
+                                        <span class="w-10 h-10 rounded-lg bg-white border border-stone-200 flex items-center justify-center text-stone-800 group-hover:bg-stone-900 group-hover:text-white transition-colors shrink-0">
+                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                                            </svg>
+                                        </span>
+                                        <div class="truncate">
+                                            <span class="block text-[11px] uppercase tracking-wider text-stone-500">E-mail</span>
+                                            <span class="block text-sm sm:text-base font-medium text-stone-900 truncate">krebs.tomas@seznam.cz</span>
+                                        </div>
+                                    </a>
+                                    <button onclick="copyToClipboard('krebs.tomas@seznam.cz', 'E-mailová adresa byla zkopírována')" 
+                                            title="Zkopírovat e-mail"
+                                            class="ml-2 px-2.5 py-1.5 rounded-lg text-xs font-medium text-stone-600 hover:text-stone-900 hover:bg-white border border-transparent hover:border-stone-200 transition-all shrink-0">
+                                        Kopírovat
+                                    </button>
+                                </div>
+
+                                <!-- 3. LINKEDIN -->
+                                <a href="https://www.linkedin.com/in/tom%C3%A1%C5%A1-krebs-4b503ab1/" 
+                                   target="_blank" 
+                                   rel="noopener noreferrer"
+                                   class="group flex items-center justify-between p-3 rounded-xl bg-stone-50 hover:bg-stone-100/80 border border-stone-200/70 transition-colors">
+                                    <div class="flex items-center gap-3.5">
+                                        <span class="w-10 h-10 rounded-lg bg-white border border-stone-200 flex items-center justify-center text-stone-800 group-hover:bg-[#0A66C2] group-hover:border-[#0A66C2] group-hover:text-white transition-colors shrink-0">
+                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                                            </svg>
+                                        </span>
+                                        <div>
+                                            <span class="block text-[11px] uppercase tracking-wider text-stone-500">Profesní profil</span>
+                                            <span class="block text-sm sm:text-base font-medium text-stone-900">LinkedIn – Tomáš Krebs</span>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs font-medium text-stone-500 group-hover:text-stone-900 flex items-center gap-1 pr-1">
+                                        Otevřít
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/>
+                                        </svg>
+                                    </span>
+                                </a>
+
+                            </div>
+
+                            <p class="mt-5 text-xs text-stone-500 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-emerald-600 shrink-0"></span>
+                                Pro nezávaznou konzultaci vašeho záměru mi můžete kdykoliv zavolat nebo napsat.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================================================
+             3. SEKCE: ZAMĚŘENÍ ATELIÉRU (3 Pilíře tvorby)
+             ========================================================================= -->
+        <section id="zamereni" class="py-16 sm:py-24 border-b border-stone-200/80 bg-stone-50/70">
+            <div class="max-w-6xl mx-auto px-5 sm:px-8">
+                
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
+                    <div>
+                        <span class="text-xs uppercase tracking-[0.2em] text-olive-600 font-semibold">Oblasti činnosti</span>
+                        <h2 class="text-2xl sm:text-3xl font-light uppercase tracking-wider text-stone-900 mt-1">
+                            Co pro vás mohu navrhnout
+                        </h2>
+                    </div>
+                    <p class="text-sm text-stone-600 max-w-md font-light">
+                        Každý projekt řeším individuálně s ohledem na rozpočet, charakter místa a každodenní potřeby rodiny.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                    
+                    <!-- Pilíř 01: Domy -->
+                    <div class="bg-white rounded-2xl p-7 sm:p-8 border border-stone-200/90 hover:border-stone-400 transition-all shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-6">
+                                <span class="font-serif italic text-3xl text-stone-400">01</span>
+                                <div class="w-11 h-11 rounded-xl bg-stone-100 flex items-center justify-center text-stone-800">
+                                    <!-- Architektonická ikona domu -->
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <h3 class="text-lg font-semibold text-stone-900 uppercase tracking-wide">Rodinné domy</h3>
+                            <p class="mt-3 text-sm text-stone-600 leading-relaxed font-light">
+                                Architektonické studie novostaveb, přístaveb i citlivé rekonstrukce starších domů. Důraz na logické uspořádání místností a propojení s pozemkem.
+                            </p>
+                        </div>
+                        <ul class="mt-6 pt-5 border-t border-stone-100 space-y-2 text-xs text-stone-600">
+                            <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-olive-600"></span> Studie a půdorysné dispozice</li>
+                            <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-olive-600"></span> Rekonstrukce a přestavby</li>
+                            <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-olive-600"></span> Osazení domu na pozemek</li>
+                        </ul>
+                    </div>
+
+                    <!-- Pilíř 02: Byty -->
+                    <div class="bg-white rounded-2xl p-7 sm:p-8 border border-stone-200/90 hover:border-stone-400 transition-all shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-6">
+                                <span class="font-serif italic text-3xl text-stone-400">02</span>
+                                <div class="w-11 h-11 rounded-xl bg-stone-100 flex items-center justify-center text-stone-800">
+                                    <!-- Architektonická ikona půdorysu/interiéru -->
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <h3 class="text-lg font-semibold text-stone-900 uppercase tracking-wide">Byty a interiéry</h3>
+                            <p class="mt-3 text-sm text-stone-600 leading-relaxed font-light">
+                                Návrhy bytových interiérů, úpravy dispozic a vestavěného nábytku na míru. Nadčasová kombinace přírodních materiálů, barev a osvětlení.
+                            </p>
+                        </div>
+                        <ul class="mt-6 pt-5 border-t border-stone-100 space-y-2 text-xs text-stone-600">
+                            <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-olive-600"></span> Kompletní rekonstrukce bytů</li>
+                            <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-olive-600"></span> Kuchyně, koupelny a úložné prostory</li>
+                            <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-olive-600"></span> Podklady pro truhláře a řemeslníky</li>
+                        </ul>
+                    </div>
+
+                    <!-- Pilíř 03: Zahrady -->
+                    <div class="bg-white rounded-2xl p-7 sm:p-8 border border-stone-200/90 hover:border-stone-400 transition-all shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-6">
+                                <span class="font-serif italic text-3xl text-stone-400">03</span>
+                                <div class="w-11 h-11 rounded-xl bg-stone-100 flex items-center justify-center text-stone-800">
+                                    <!-- Architektonická ikona zahrady/exteriéru -->
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0012 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 01-2.031.352 5.988 5.988 0 01-2.031-.352c-.483-.174-.711-.703-.59-1.202L18.75 4.971zm-16.5.52c.99-.203 1.99-.377 3-.52m0 0l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.989 5.989 0 01-2.031.352 5.989 5.989 0 01-2.031-.352c-.483-.174-.711-.703-.59-1.202L5.25 4.971z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <h3 class="text-lg font-semibold text-stone-900 uppercase tracking-wide">Zahrady a exteriéry</h3>
+                            <p class="mt-3 text-sm text-stone-600 leading-relaxed font-light">
+                                Koncepční návrhy zahrad, teras, pergol a vstupních prostorů tak, aby dům přirozeně navazoval na své okolí a poskytoval soukromí.
+                            </p>
+                        </div>
+                        <ul class="mt-6 pt-5 border-t border-stone-100 space-y-2 text-xs text-stone-600">
+                            <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-olive-600"></span> Kompozice zahrad a odpočinkových zón</li>
+                            <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-olive-600"></span> Návrhy teras, pergol a oplocení</li>
+                            <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-olive-600"></span> Propojení interiéru se zahradou</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================================================
+             4. SEKCE: VYBRANÉ UKÁZKY PRÁCE (Galerie 6 projektů s filtrem a náhledem)
+             ========================================================================= -->
+        <section id="ukazky" class="py-16 sm:py-24 border-b border-stone-200/80">
+            <div class="max-w-6xl mx-auto px-5 sm:px-8">
+                
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+                    <div>
+                        <span class="text-xs uppercase tracking-[0.2em] text-olive-600 font-semibold">Portfolio & inspirace</span>
+                        <h2 class="text-2xl sm:text-3xl font-light uppercase tracking-wider text-stone-900 mt-1">
+                            Ukázky řešených prostorů
+                        </h2>
+                    </div>
+
+                    <!-- Filtrovací tlačítka -->
+                    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1" role="tablist">
+                        <button onclick="filterProjects('all')" data-filter="all" class="filter-btn px-4 py-2 rounded-lg text-xs font-medium uppercase tracking-wider bg-stone-900 text-stone-50 transition-all shrink-0">
+                            Vše (6)
+                        </button>
+                        <button onclick="filterProjects('domy')" data-filter="domy" class="filter-btn px-4 py-2 rounded-lg text-xs font-medium uppercase tracking-wider bg-white border border-stone-200 text-stone-700 hover:bg-stone-100 transition-all shrink-0">
+                            Domy
+                        </button>
+                        <button onclick="filterProjects('byty')" data-filter="byty" class="filter-btn px-4 py-2 rounded-lg text-xs font-medium uppercase tracking-wider bg-white border border-stone-200 text-stone-700 hover:bg-stone-100 transition-all shrink-0">
+                            Byty a interiéry
+                        </button>
+                        <button onclick="filterProjects('zahrady')" data-filter="zahrady" class="filter-btn px-4 py-2 rounded-lg text-xs font-medium uppercase tracking-wider bg-white border border-stone-200 text-stone-700 hover:bg-stone-100 transition-all shrink-0">
+                            Zahrady
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mřížka 6 projektů (stejný poměr stran 3:2 jako v původním návrhu) -->
+                <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+                    <!-- Karty projektů se generují ze seznamu v JavaScriptu níže (snadná úprava na jednom místě) -->
+                </div>
+
+            </div>
+        </section>
+
+        <!-- =========================================================================
+             5. SEKCE: JAK PROBÍHÁ SPOLUPRÁCE (Jednoduché 3 kroky)
+             ========================================================================= -->
+        <section id="spoluprace" class="py-16 sm:py-24 bg-stone-100/70 border-b border-stone-200/80">
+            <div class="max-w-6xl mx-auto px-5 sm:px-8">
+                <div class="max-w-2xl mb-12">
+                    <span class="text-xs uppercase tracking-[0.2em] text-olive-600 font-semibold">Postup spolupráce</span>
+                    <h2 class="text-2xl sm:text-3xl font-light uppercase tracking-wider text-stone-900 mt-1">
+                        Od první myšlenky k realizaci
+                    </h2>
+                    <p class="mt-2 text-sm text-stone-600 font-light">
+                        Spolupráce je přehledná, lidská a bez zbytečné složitosti. Vždy víte, v jaké fázi se návrh nachází.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Krok 1 -->
+                    <div class="bg-white/90 rounded-2xl p-6 sm:p-7 border border-stone-200/80 relative">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-8 h-8 rounded-lg bg-stone-900 text-stone-50 text-xs font-semibold flex items-center justify-center">1</span>
+                            <h3 class="text-base font-semibold text-stone-900">Setkání a posouzení místa</h3>
+                        </div>
+                        <p class="text-sm text-stone-600 font-light leading-relaxed">
+                            Sejdeme se osobně na pozemku nebo v bytě. Probereme vaše představy, praktické potřeby i rozpočet a ujasníme si další postup.
+                        </p>
+                    </div>
+
+                    <!-- Krok 2 -->
+                    <div class="bg-white/90 rounded-2xl p-6 sm:p-7 border border-stone-200/80 relative">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-8 h-8 rounded-lg bg-stone-900 text-stone-50 text-xs font-semibold flex items-center justify-center">2</span>
+                            <h3 class="text-base font-semibold text-stone-900">Návrh a společné ladění</h3>
+                        </div>
+                        <p class="text-sm text-stone-600 font-light leading-relaxed">
+                            Připravím varianty dispozičního a prostorového řešení. Návrh společně projdeme a doladíme k vaší plné spokojenosti.
+                        </p>
+                    </div>
+
+                    <!-- Krok 3 -->
+                    <div class="bg-white/90 rounded-2xl p-6 sm:p-7 border border-stone-200/80 relative">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-8 h-8 rounded-lg bg-olive-600 text-stone-50 text-xs font-semibold flex items-center justify-center">3</span>
+                            <h3 class="text-base font-semibold text-stone-900">Podklady pro realizaci</h3>
+                        </div>
+                        <p class="text-sm text-stone-600 font-light leading-relaxed">
+                            Výsledkem je srozumitelná dokumentace a výkresy, podle kterých mohou stavební firmy, řemeslníci či zahradníci rovnou pracovat.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- =========================================================================
+         6. PATIČKA – KONTAKTNÍ VIZITKA (Tmavý architektonický blok)
+         ========================================================================= -->
+    <footer id="kontakt" class="bg-stone-900 text-stone-200 py-16 sm:py-20">
+        <div class="max-w-6xl mx-auto px-5 sm:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center pb-12 border-b border-stone-800">
+                
+                <div class="lg:col-span-7">
+                    <div class="border-l-4 border-olive-600 pl-6">
+                        <span class="text-xs uppercase tracking-[0.2em] text-stone-400">Digitální vizitka</span>
+                        <h2 class="text-2xl sm:text-4xl font-light uppercase tracking-wider text-white mt-1">
+                            Ateliér Krebs
+                        </h2>
+                        <p class="text-stone-400 text-sm sm:text-base mt-2 max-w-lg font-light">
+                            Tomáš Krebs — Návrhy domů, bytů a zahrad. Ozvěte se mi telefonicky nebo e-mailem, rád s vámi proberu váš záměr.
+                        </p>
+                    </div>
+
+                    <div class="mt-8 flex flex-wrap gap-3 sm:gap-4">
+                        <a href="tel:+420604464593" 
+                           class="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-white text-stone-900 text-sm font-semibold hover:bg-stone-200 transition-colors">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                            </svg>
+                            <span>+420 604 464 593</span>
+                        </a>
+
+                        <a href="mailto:krebs.tomas@seznam.cz" 
+                           class="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-stone-800 text-stone-100 border border-stone-700 text-sm font-medium hover:bg-stone-700 transition-colors">
+                            <svg class="w-4 h-4 text-stone-400" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                            </svg>
+                            <span>krebs.tomas@seznam.cz</span>
+                        </a>
+
+                        <button onclick="downloadVCard()" 
+                                class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-stone-800/60 text-stone-300 border border-stone-700/80 text-sm hover:text-white hover:bg-stone-800 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+                            </svg>
+                            <span>Stáhnout vizitku (.vcf)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Rychlá vizitka v patičce -->
+                <div class="lg:col-span-5">
+                    <div class="bg-stone-800/70 border border-stone-700/80 rounded-2xl p-6 flex items-center justify-between gap-4">
+                        <div class="space-y-1.5 text-sm">
+                            <p class="text-white font-semibold tracking-wide uppercase">Tomáš Krebs</p>
+                            <p class="text-stone-400 text-xs">Návrhy domů, bytů a zahrad</p>
+                            <p class="text-stone-300 pt-1">+420 604 464 593</p>
+                            <p class="text-stone-300">krebs.tomas@seznam.cz</p>
+                            <div class="pt-2">
+                                <a href="https://www.linkedin.com/in/tom%C3%A1%C5%A1-krebs-4b503ab1/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-white underline underline-offset-4">
+                                    Profil na LinkedIn →
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Klikací QR ikona pro zobrazení velké QR vizitky -->
+                        <button onclick="openQrModal()" title="Zobrazit QR kód vizitky" class="group bg-white p-3 rounded-xl text-stone-900 shrink-0 hover:scale-105 transition-transform text-center">
+                            <svg class="w-16 h-16 mx-auto" viewBox="0 0 100 100" fill="currentColor">
+                                <path d="M10 10h30v30H10V10zm6 6v18h18V16H16zm6 6h6v6h-6v-6zm38-12h30v30H60V10zm6 6v18h18V16H66zm6 6h6v6h-6v-6zM10 60h30v30H10V60zm6 6v18h18V66H16zm6 6h6v6h-6v-6zm26-62h6v12h-6V10zm0 18h6v12h-6V28zm-38 18h18v6H10v-6zm24 0h18v6H34v-6zm24 0h12v12H58V46zm18 0h14v6H76v-6zm-30 12h6v18h-6V58zm12 6h18v6H58v-6zm24-6h8v18h-8V58zM46 82h18v8H46v-8zm24-6h12v14H70V76zm14 8h6v6h-6v-6z"/>
+                            </svg>
+                            <span class="block text-[10px] font-medium text-stone-600 mt-1">QR Kontakt</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-4">
+                <p>© <span id="current-year">2026</span> Ateliér Krebs – Tomáš Krebs. Všechna práva vyhrazena.</p>
+                <a href="#" class="hover:text-stone-300 transition-colors">Nahoru ↑</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- =========================================================================
+         MODÁLNÍ OKNO PRO DETAIL PROJEKTU (LIGHTBOX)
+         ========================================================================= -->
+    <div id="lightbox-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-stone-900/85 backdrop-blur-sm p-4 sm:p-6">
+        <div class="bg-stone-50 rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl border border-stone-200 relative animate-fadeIn">
+            <!-- Zavřít -->
+            <button onclick="closeLightbox()" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-stone-900/80 text-white hover:bg-stone-900 flex items-center justify-center transition-colors" aria-label="Zavřít náhled">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+
+            <div class="aspect-[3/2] w-full bg-stone-200 overflow-hidden relative">
+                <img id="lightbox-img" src="" alt="" class="w-full h-full object-cover">
+            </div>
+
+            <div class="p-6 sm:p-8">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                    <span id="lightbox-category" class="text-xs font-semibold uppercase tracking-widest text-olive-600"></span>
+                    <span id="lightbox-tag" class="text-xs px-2.5 py-1 rounded-md bg-stone-200/80 text-stone-700"></span>
+                </div>
+                <h3 id="lightbox-title" class="text-xl sm:text-2xl font-semibold text-stone-900"></h3>
+                <p id="lightbox-desc" class="mt-2 text-sm sm:text-base text-stone-600 font-light leading-relaxed"></p>
+
+                <div class="mt-6 pt-5 border-t border-stone-200 flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center gap-2">
+                        <button onclick="prevProject()" class="px-3.5 py-2 rounded-lg border border-stone-300 text-xs font-medium text-stone-700 hover:bg-stone-100">
+                            ← Předchozí
+                        </button>
+                        <button onclick="nextProject()" class="px-3.5 py-2 rounded-lg border border-stone-300 text-xs font-medium text-stone-700 hover:bg-stone-100">
+                            Další →
+                        </button>
+                    </div>
+                    <a href="mailto:krebs.tomas@seznam.cz?subject=Popt%C3%A1vka%20n%C3%A1vrhu%20%E2%80%93%20Ateli%C3%A9r%20Krebs" 
+                       class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-stone-900 text-white text-xs sm:text-sm font-medium hover:bg-olive-700 transition-colors">
+                        Poptat podobné řešení
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <!-- =========================================================================
+         MODÁLNÍ OKNO S QR VIZITKOU
+         ========================================================================= -->
+    <div id="qr-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-stone-900/80 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 sm:p-8 text-center shadow-2xl border border-stone-200 relative">
+            <button onclick="closeQrModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-stone-100 text-stone-600 hover:bg-stone-200 flex items-center justify-center" aria-label="Zavřít">
+                ✕
+            </button>
+            <span class="text-xs uppercase tracking-widest text-olive-600 font-semibold">Chytrá vizitka</span>
+            <h3 class="text-xl font-semibold text-stone-900 mt-1">Ateliér Krebs</h3>
+            <p class="text-xs text-stone-500 mt-1">Namiřte fotoaparát telefonu na QR kód pro vytočení čísla nebo si uložte vizitku jedním kliknutím.</p>
+
+            <!-- QR Kód pro rychlé zavolání tel:+420604464593 -->
+            <div class="my-6 p-4 bg-stone-50 border border-stone-200 rounded-xl inline-block">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=6&data=MECARD%3AN%3AKrebs%2CTom%C3%A1%C5%A1%3BTEL%3A%2B420604464593%3BEMAIL%3Akrebs.tomas%40seznam.cz%3BORG%3AAteli%C3%A9r%20Krebs%3B%3B" 
+                     alt="QR Vizitka Tomáš Krebs" 
+                     class="w-44 h-44 mx-auto rounded-lg"
+                     onerror="this.style.display='none'; document.getElementById('qr-fallback').classList.remove('hidden');">
+                <div id="qr-fallback" class="hidden py-8 px-4 text-xs text-stone-600">
+                    <strong>Tomáš Krebs</strong><br>+420 604 464 593<br>krebs.tomas@seznam.cz
+                </div>
+            </div>
+
+            <div class="space-y-2.5 text-left bg-stone-50 p-3.5 rounded-xl border border-stone-200/80 text-xs mb-5">
+                <div class="flex justify-between"><span class="text-stone-500">Jméno:</span> <strong class="text-stone-900">Tomáš Krebs</strong></div>
+                <div class="flex justify-between"><span class="text-stone-500">Telefon:</span> <strong class="text-stone-900">+420 604 464 593</strong></div>
+                <div class="flex justify-between"><span class="text-stone-500">E-mail:</span> <strong class="text-stone-900">krebs.tomas@seznam.cz</strong></div>
+            </div>
+
+            <button onclick="downloadVCard()" class="w-full py-3 rounded-xl bg-stone-900 text-white text-sm font-medium hover:bg-olive-700 transition-colors">
+                Stáhnout do kontaktů (.vcf)
+            </button>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         NOTIFIKAČNÍ LIŠTA (TOAST) PRO POTVRZENÍ ZKOPÍROVÁNÍ
+         ========================================================================= -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 pointer-events-none opacity-0 translate-y-2 transition-all duration-300">
+        <div class="bg-stone-900 text-white px-4 py-3 rounded-xl shadow-xl border border-stone-700 flex items-center gap-2.5 text-xs sm:text-sm">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span id="toast-message">Zkopírováno do schránky</span>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         SKRIPTY A DATA PROJEKTŮ (Zde můžete snadno měnit fotky a popisky)
+         ========================================================================= -->
+    <script>
+        /* -------------------------------------------------------------------------
+           ZDE UPRAVTE PROJEKTY V GALERII:
+           Až budete mít vlastní fotky od taťky, stačí do složky k webu nahrát např.
+           "projekt1.jpg" a přepsat řádek image: "projekt1.jpg".
+           Do té doby web využívá vkusné architektonické ilustrační fotografie.
+           ------------------------------------------------------------------------- */
+        const projectsData = [
+            {
+                id: 1,
+                title: "Rodinný dům se zahradní terasou",
+                category: "domy",
+                categoryLabel: "Rodinné domy",
+                tag: "Studie & dispozice",
+                description: "Návrh vzdušného rodinného domu s důrazem na přirozené proslunění obytného prostoru, praktické zázemí a plynulý přechod na krytou dřevěnou terasu.",
+                image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80"
+            },
+            {
+                id: 2,
+                title: "Světlý interiér bytu v přírodních tónech",
+                category: "byty",
+                categoryLabel: "Byty a interiéry",
+                tag: "Návrh interiéru",
+                description: "Promyšlená rekonstrukce bytového prostoru. Spojení kuchyně s obývací částí, návrh vestavěného nábytku na míru a ladění dubového dřeva s jemnými tóny stěn.",
+                image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=80"
+            },
+            {
+                id: 3,
+                title: "Soukromá zahrada a odpočinková zóna",
+                category: "zahrady",
+                categoryLabel: "Zahrady",
+                tag: "Koncepce zahrady",
+                description: "Kompoziční řešení rodinné zahrady, které propojuje architekturu domu s okolní zelení, vytváří klidná zákoutí a zajišťuje celoroční estetický dojem.",
+                image: "https://images.unsplash.com/photo-1558036117-15d82a90b9b1?auto=format&fit=crop&w=1000&q=80"
+            },
+            {
+                id: 4,
+                title: "Rekonstrukce a přístavba venkovského domu",
+                category: "domy",
+                categoryLabel: "Rodinné domy",
+                tag: "Rekonstrukce",
+                description: "Citlivá modernizace staršího objektu se zachováním původního měřítka, doplněná o nové prosklené propojení do dvora a funkční vnitřní uspořádání.",
+                image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1000&q=80"
+            },
+            {
+                id: 5,
+                title: "Minimalistická jídelna a kuchyňský prostor",
+                category: "byty",
+                categoryLabel: "Byty a interiéry",
+                tag: "Dispozice & nábytek",
+                description: "Čisté linie, dostatek skrytých úložných prostorů a důraz na ergonomii při každodenním vaření i společném stolování rodiny.",
+                image: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1000&q=80"
+            },
+            {
+                id: 6,
+                title: "Návaznost domu na zahradu a pergolu",
+                category: "zahrady",
+                categoryLabel: "Zahrady",
+                tag: "Exteriér & terasa",
+                description: "Řešení zpevněných ploch, zahradního schodiště, dřevěné pergoly a osázení v bezprostředním okolí rodinného domu.",
+                image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1000&q=80"
+            }
+        ];
+
+        let currentFilter = 'all';
+        let currentLightboxIndex = 0;
+        let filteredProjects = [...projectsData];
+
+        // Vykreslení karet projektů
+        function renderProjects(filter = 'all') {
+            const grid = document.getElementById('portfolio-grid');
+            filteredProjects = filter === 'all' 
+                ? projectsData 
+                : projectsData.filter(p => p.category === filter);
+
+            grid.innerHTML = filteredProjects.map((project, index) => `
+                <article onclick="openLightbox(${index})" 
+                         class="project-card group cursor-pointer bg-white rounded-2xl overflow-hidden border border-stone-200/90 hover:border-stone-400 transition-all shadow-sm flex flex-col">
+                    <div class="aspect-[3/2] w-full bg-stone-200 overflow-hidden relative">
+                        <img src="${project.image}" 
+                             alt="${project.title}" 
+                             loading="lazy"
+                             onerror="this.src='https://placehold.co/900x600/e6e2d8/4a4742?text=Ateli%C3%A9r+Krebs'"
+                             class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-stone-900/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                            <span class="text-xs font-medium text-white bg-stone-900/80 backdrop-blur-sm px-3 py-1.5 rounded-lg">
+                                Zvětšit ukázku →
+                            </span>
+                        </div>
+                        <span class="absolute top-3 left-3 text-[11px] font-medium uppercase tracking-wider px-2.5 py-1 rounded-md bg-white/90 backdrop-blur-sm text-stone-800">
+                            ${project.categoryLabel}
+                        </span>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between text-xs text-stone-500 mb-1">
+                                <span>Ukázka 0${project.id}</span>
+                                <span>${project.tag}</span>
+                            </div>
+                            <h3 class="text-base font-semibold text-stone-900 group-hover:text-olive-700 transition-colors">
+                                ${project.title}
+                            </h3>
+                        </div>
+                        <p class="mt-2 text-xs text-stone-600 line-clamp-2 font-light leading-relaxed">
+                            ${project.description}
+                        </p>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        // Filtrování kategorií
+        function filterProjects(category) {
+            currentFilter = category;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.getAttribute('data-filter') === category) {
+                    btn.className = "filter-btn px-4 py-2 rounded-lg text-xs font-medium uppercase tracking-wider bg-stone-900 text-stone-50 transition-all shrink-0";
+                } else {
+                    btn.className = "filter-btn px-4 py-2 rounded-lg text-xs font-medium uppercase tracking-wider bg-white border border-stone-200 text-stone-700 hover:bg-stone-100 transition-all shrink-0";
+                }
+            });
+            renderProjects(category);
+        }
+
+        // Otevření detailu projektu (Lightbox)
+        function openLightbox(index) {
+            currentLightboxIndex = index;
+            updateLightboxContent();
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function updateLightboxContent() {
+            const project = filteredProjects[currentLightboxIndex];
+            if (!project) return;
+            document.getElementById('lightbox-img').src = project.image;
+            document.getElementById('lightbox-img').alt = project.title;
+            document.getElementById('lightbox-category').textContent = project.categoryLabel;
+            document.getElementById('lightbox-tag').textContent = project.tag;
+            document.getElementById('lightbox-title').textContent = project.title;
+            document.getElementById('lightbox-desc').textContent = project.description;
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+        function nextProject() {
+            currentLightboxIndex = (currentLightboxIndex + 1) % filteredProjects.length;
+            updateLightboxContent();
+        }
+
+        function prevProject() {
+            currentLightboxIndex = (currentLightboxIndex - 1 + filteredProjects.length) % filteredProjects.length;
+            updateLightboxContent();
+        }
+
+        // QR Vizitka modální okno
+        function openQrModal() {
+            const modal = document.getElementById('qr-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeQrModal() {
+            const modal = document.getElementById('qr-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Kopírování telefonu nebo e-mailu do schránky se zobrazením hlášky
+        function copyToClipboard(text, message) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast(message);
+            } catch (err) {
+                showToast('Kontakt: ' + text);
+            }
+            document.body.removeChild(textarea);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const msgEl = document.getElementById('toast-message');
+            msgEl.textContent = message;
+            toast.classList.remove('opacity-0', 'translate-y-2');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-2');
+            }, 2800);
+        }
+
+        // Generování a stažení vizitky (.vcf) přímo do telefonu nebo počítače
+        function downloadVCard() {
+            const vcardContent = [
+                'BEGIN:VCARD',
+                'VERSION:3.0',
+                'N;CHARSET=UTF-8:Krebs;Tomáš;;;',
+                'FN;CHARSET=UTF-8:Tomáš Krebs - Ateliér Krebs',
+                'ORG;CHARSET=UTF-8:Ateliér Krebs',
+                'TITLE;CHARSET=UTF-8:Návrhy domů, bytů a zahrad',
+                'TEL;TYPE=CELL,VOICE:+420604464593',
+                'EMAIL;TYPE=PREF,INTERNET:krebs.tomas@seznam.cz',
+                'URL:https://www.linkedin.com/in/tom%C3%A1%C5%A1-krebs-4b503ab1/',
+                'NOTE;CHARSET=UTF-8:Architektonické návrhy domů, bytů a zahrad.',
+                'END:VCARD'
+            ].join('\r\n');
+
+            const blob = new Blob([vcardContent], { type: 'text/vcard;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'Tomas-Krebs-Atelier-Krebs.vcf');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            showToast('Vizitka Tomáše Krebse byla stažena');
+        }
+
+        // Zavření oken klávesou Escape a šipkami
+        document.addEventListener('keydown', (e) => {
+            const lightboxOpen = !document.getElementById('lightbox-modal').classList.contains('hidden');
+            if (e.key === 'Escape') {
+                closeLightbox();
+                closeQrModal();
+            } else if (lightboxOpen && e.key === 'ArrowRight') {
+                nextProject();
+            } else if (lightboxOpen && e.key === 'ArrowLeft') {
+                prevProject();
+            }
+        });
+
+        // Zavření modálu kliknutím mimo okno
+        document.getElementById('lightbox-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox-modal') closeLightbox();
+        });
+        document.getElementById('qr-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'qr-modal') closeQrModal();
+        });
+
+        // Inicializace po načtení
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            renderProjects('all');
+        });
+    </script>
 </body>
 </html>
